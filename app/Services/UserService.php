@@ -47,26 +47,15 @@ class UserService
 
         $user->setPassword(password_hash($userData['password'], PASSWORD_DEFAULT));
 
-        // $savedUser = $this->userRepository->save($user);
-        // if ($savedUser) {
-        //     return ['success' => true, 'user' => $savedUser];
-        // } else {
-        //     throw new \Exception("Error en insertar los datos");            ;
-        // }
         try {
             $savedUser = $this->userRepository->save($user);
             if ($savedUser) {
                 return ['success' => true, 'user' => $savedUser];
             } else {
-                throw new \Exception('Error personalizado: No se pudo completar el registro del usuario');
+                throw new \Exception('No se pudo completar el registro del usuario');
             }
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
-    }
-
-    private function isAdmin(): bool
-    {
-        return isset($_SESSION['user_rol']) && $_SESSION['user_rol'] === 'admin';
     }
 }

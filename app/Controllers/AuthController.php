@@ -39,7 +39,7 @@ class AuthController
                 if ($result['success']) {
                     $_SESSION['user_id'] = $result['user']['id'];
                     $_SESSION['user_name'] = $result['user']['nombre'];
-                    $_SESSION['user_rol'] = $result['user']['password'];
+                    $_SESSION['user_rol'] = $result['user']['rol'];
 
                     header('Location: /');
                     exit;
@@ -72,7 +72,7 @@ class AuthController
                 $result = $this->userService->register($userData);
                 if ($result['success']) {
 
-                    header('Location: /');
+                    header('Location: /login');
                     exit;
                 } else {
                     $this->page->render('auth/register', ['errors' => $result['errors']]);
