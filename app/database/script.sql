@@ -72,3 +72,16 @@ CREATE TABLE IF NOT EXISTS lineas_pedidos (
         producto_id
     ) REFERENCES productos (id)
 ) ENGINE = InnoDb DEFAULT CHARSET = utf8 COLLATE = utf8_bin;
+
+INSERT INTO tienda.usuarios
+(id, nombre, apellidos, direccion, email, telefono, password, rol)
+VALUES (
+    1,
+    'juan',
+    'juan juan',
+    'calle juan',
+    'admin@example.com',
+    '998877665',
+    '$2y$10$mxDUACCMlV2tnhaWXwX9ZOD1/yWNanGVSrOcY2acDX3O/3OE7f9hy',
+    'admin'
+);

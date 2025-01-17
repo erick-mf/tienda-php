@@ -35,6 +35,7 @@ class Router
 
     public static function dispatch()
     {
+        $pages = new Pages;
         $method = $_SERVER['REQUEST_METHOD'];
         // Obtener la URI sin el prefijo del proyecto
         $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -51,7 +52,6 @@ class Router
             if (strpos($action, $prefix) === 0) {
                 if (! $middleware::isValid()) {
                     http_response_code(403);
-                    $pages = new Pages;
 
                     return $pages->render('errors/error403', []);
                 }
@@ -73,7 +73,6 @@ class Router
                     return $controller->$methodName($param);
                 } else {
                     http_response_code(500);
-                    $pages = new Pages;
 
                     return $pages->render('errors/error500', []);
                 }
@@ -82,8 +81,6 @@ class Router
             }
         } else {
             http_response_code(404);
-
-            $pages = new Pages;
 
             return $pages->render('errors/error404', []);
         }

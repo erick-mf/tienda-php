@@ -30,7 +30,7 @@ class AuthController
                 $errors['email'] = 'El email es requerido';
             }
             if (empty($password)) {
-                $errors['clave'] = 'La contraseña es requerida';
+                $errors['password'] = 'La contraseña es requerida';
             }
 
             if (empty($errors)) {
@@ -39,7 +39,7 @@ class AuthController
                 if ($result['success']) {
                     $_SESSION['user_id'] = $result['user']['id'];
                     $_SESSION['user_name'] = $result['user']['nombre'];
-                    $_SESSION['user_rol'] = $result['user']['rol'];
+                    $_SESSION['user_role'] = $result['user']['rol'];
 
                     header('Location: /');
                     exit;

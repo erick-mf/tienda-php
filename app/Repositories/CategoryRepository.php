@@ -97,12 +97,12 @@ class CategoryRepository
         }
     }
 
-    public function edit($id, $newName): bool
+    public function edit(Category $category): bool
     {
         $sql = 'UPDATE categorias SET nombre = :newName WHERE id = :id';
         $stmt = $this->db->prepare($sql);
-        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
-        $stmt->bindValue(':newName', $newName, \PDO::PARAM_STR);
+        $stmt->bindValue(':id', $category->id(), \PDO::PARAM_INT);
+        $stmt->bindValue(':newName', $category->name(), \PDO::PARAM_STR);
 
         if (! $stmt->execute()) {
             return false;

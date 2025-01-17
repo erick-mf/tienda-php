@@ -55,8 +55,17 @@ class CategoryService
         return $this->categoryRepository->findCategoryId($id);
     }
 
-    public function edit(int $id, string $newName)
+    public function edit($categoryData)
     {
-        return $this->categoryRepository->edit($id, $newName);
+        $category = Category::fromArray($categoryData);
+        $errors = $category->validate();
+
+        if (! empty($errors)) {
+            return ['success' => false, 'errors' => $errors];
+        }
+
+        $result = $this->categoryRepository->edit($category);
+
+        return ['success' => $result];
     }
 }

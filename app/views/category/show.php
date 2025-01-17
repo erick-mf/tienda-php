@@ -2,13 +2,12 @@
     <h1>Listado de Categorías</h1>
 
     <?php if (isset($msg)) { ?>
-    <div style="padding: 10px; margin-bottom: 10px; border: 1px solid; border-radius: 5px;
-    background-color: #f8d7da; color: #721c24; border-color: #f5c6cb;">
+    <div class="error-message">
         <p>Error al eliminar la categoria</p>
     </div>
     <?php } ?>
 
-    <a href="/admin/category/new">Agregar categoria</a>
+    <a href="/admin/category/new" class="add-link">Agregar categoria</a>
     <table>
         <thead>
             <tr>
@@ -21,7 +20,7 @@
             <tr>
                 <td><?php echo htmlspecialchars($results['nombre']); ?></td>
                 <td><a href="/admin/category/edit/<?php echo $results['id']; ?>">Editar</a></td>
-                <td><a href="/admin/category/delete/<?php echo $results['id']; ?>" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoría?')">Eliminar</a></td>
+                <td><a href="/admin/category/delete/<?php echo $results['id']; ?>" onclick="return confirm('¿Estás seguro de que quieres eliminar está categoría?')">Eliminar</a></td>
             </tr>
             <?php } elseif (is_array($results)) { ?>
             <?php foreach ($results as $result) { ?>

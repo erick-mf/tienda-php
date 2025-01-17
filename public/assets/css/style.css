@@ -1,0 +1,262 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #333;
+    padding: 1rem;
+}
+
+main {
+    flex: 1;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px;
+    flex-shrink: 0;
+}
+
+footer p {
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-section ul {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-home ul li a,
+.nav-options ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.nav-home ul li a:hover,
+.nav-options ul li a:hover {
+    background-color: #555;
+}
+
+/* Estilos generales para las tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    table-layout: fixed; /* Añade esta línea */
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+table input[type="submit"] {
+    padding: 5px 10px;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+table a {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+table a:hover {
+    text-decoration: underline;
+}
+
+table img {
+    max-width: 90px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+table input[type="submit"][value="Editar"] {
+    background-color: #4CAF50;
+}
+
+table input[type="submit"][value="Editar"]:hover {
+    background-color: #45a049;
+}
+
+table input[type="submit"][value="Eliminar"] {
+    background-color: #f44336;
+}
+
+table input[type="submit"][value="Eliminar"]:hover {
+    background-color: #d32f2f;
+}
+
+table form {
+    box-shadow: none;
+    background-color: inherit;
+}
+/* Estilos para el mensaje de error */
+.error-message {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+/* Estilos para el enlace de agregar */
+.add-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.add-link:hover {
+    background-color: #45a049;
+}
+
+/* Estilos generales para formularios */
+form {
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+form label {
+    margin-bottom: 2px;
+    color: #333;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+form p {
+    margin: 10px 0;
+    color: #333;
+    font-weight: bold;
+}
+
+form p a {
+    text-decoration: none;
+}
+
+form input[type="text"],
+form input[type="tel"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="date"],
+form select,
+form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+form input[type="submit"],
+form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form input[type="submit"]:hover,
+form button:hover {
+    background-color: #45a049;
+}
+
+form button[type="button"] {
+    background-color: #f44336;
+}
+
+form button[type="button"]:hover {
+    background-color: #d32f2f;
+}
+
+form input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+form input[type="checkbox"],
+form input[type="radio"] {
+    margin-right: 10px;
+}
+
+.form-error {
+    color: #f44336;
+    font-size: 0.9em;
+    margin-top: 2px;
+    margin-bottom: 5px;
+}

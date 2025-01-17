@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\UserValidationTrait;
+
 class User
 {
+    use UserValidationTrait;
+
     private $id_user;
 
     private $name;
@@ -98,11 +102,5 @@ class User
     public function setRole($role): void
     {
         $this->role = $role;
-    }
-
-    public function validate()
-    {
-        $errors = [];
-        return $errors;
     }
 }

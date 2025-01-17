@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\CategoryValidateTrait;
+
 class Category
 {
+    use CategoryValidateTrait;
+
     private $id;
 
     private $name;
@@ -28,10 +32,12 @@ class Category
         $this->name = $name;
     }
 
-    public function validate()
+    public static function fromArray(array $categoryData)
     {
-        $errors = [];
+        $category = new self;
+        $category->setId($categoryData['id'] ?? null);
+        $category->setName($categoryData['name'] ?? '');
 
-        return $errors;
+        return $category;
     }
 }

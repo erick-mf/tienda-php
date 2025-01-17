@@ -76,17 +76,20 @@ class CategoryController
 
     public function updateCategory($id)
     {
-        $newName = $_POST['category']['name'] ?? '';
-        if (empty($newName)) {
+        $category = $this->categoryService->findCategoryId((int) $id);
+        $updateCategory = [
+            'id' => $id ?? $category['id'],
+            'name' => $_POST['category']['name'] ?? $category['nombre'],
+        ];
+        if (empty($updateCategory)) {
             $this->page->render('category/edit', ['category' => ['id' => $id]]);
 
             return;
         }
 
-        $result = $this->categoryService->edit((int) $id, $newName);
-        if (! $result) {
-            header('Location: /admin/category');
-            exit;
+        $result = $this->categoryService->edit($updateCategory);
+        if (! $result['success']) {
+            $this->page->render('category/edit', ['errors' => $result['errors'], 'category' => $category]);
         } else {
             header('Location: /admin/category');
             exit;
