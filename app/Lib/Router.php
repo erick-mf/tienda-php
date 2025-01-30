@@ -42,9 +42,14 @@ class Router
         $action = trim($uri, '/');
 
         $param = null;
-        if (preg_match('/[0-9]+$/', $action, $match)) {
-            $param = $match[0];
-            $action = preg_replace('/'.$match[0].'$/', ':id', $action);
+        // solo funciona para nùmeros
+        // if (preg_match('/[0-9]+$/', $action, $match)) {
+        //     $param = $match[0];
+        //     $action = preg_replace('/'.$match[0].'$/', ':id', $action);
+        // }
+        if (preg_match('/\/([^\/]+)$/', $action, $match)) {
+            $param = $match[1];
+            $action = preg_replace('/\/[^\/]+$/', '/:param', $action);
         }
 
         // Verificar middlewares

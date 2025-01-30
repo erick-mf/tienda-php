@@ -3,6 +3,7 @@
 namespace App\Routes;
 
 use App\Controllers\AuthController;
+use App\Controllers\CartController;
 use App\Controllers\CategoryController;
 use App\Controllers\HomeController;
 use App\Controllers\ProductController;

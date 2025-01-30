@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/public/assets/css/style.css">
-        <title>Biblioteca</title>
+        <title>Tienda</title>
     </head>
     <body>
         <header>
@@ -12,7 +12,7 @@
                 <section class="nav-container">
                     <div class="nav-section nav-home">
                         <ul>
-                            <li><a href="/">Inicio</a></li>
+                            <li><a href="/">Fake</a></li>
                         </ul>
                     </div>
                     <div class="nav-section nav-options">

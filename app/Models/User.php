@@ -24,6 +24,12 @@ class User
 
     private $role;
 
+    private $token;
+
+    private $token_exp;
+
+    private $is_confirmed = false;
+
     public function id_user()
     {
         return $this->id_user;
@@ -64,7 +70,22 @@ class User
         return $this->role;
     }
 
-    public function setIdUser($id_user): void
+    public function token()
+    {
+        return $this->token;
+    }
+
+    public function token_exp()
+    {
+        return $this->token_exp;
+    }
+
+    public function is_confirmed()
+    {
+        return $this->is_confirmed;
+    }
+
+    public function setId_user($id_user): void
     {
         $this->id_user = $id_user;
     }
@@ -102,5 +123,20 @@ class User
     public function setRole($role): void
     {
         $this->role = $role;
+    }
+
+    public function setToken($token): void
+    {
+        $this->token = $token;
+    }
+
+    public function setToken_exp($token_exp): void
+    {
+        $this->token_exp = $token_exp;
+    }
+
+    public function setIs_confirmed($is_confirmed): void
+    {
+        $this->is_confirmed = $is_confirmed;
     }
 }

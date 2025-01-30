@@ -24,8 +24,8 @@ class HomeController
 
     public function index()
     {
-        $prueba = ['uno' => 1, 'dos' => 2, 'tres' => 3];
-        $_SESSION['array'] = $prueba;
+        // $prueba = ['uno' => 1, 'dos' => 2, 'tres' => 3];
+        // $_SESSION['array'] = $prueba;
         $categories = $this->categoryService->show();
         $products = $this->productService->getProducts();
         $this->pages->render('home/index', ['products' => $products, 'categories' => $categories]);
