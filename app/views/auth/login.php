@@ -1,9 +1,7 @@
-<main>
-    <?php if (isset($errors['general'])) { ?>
+<?php if (isset($errors['general'])) { ?>
     <div class="error-message"><?php echo htmlspecialchars($errors['general']); ?></div>
     <?php } ?>
-
-
+<main>
     <form action="login" method="post">
         <h1>Iniciar Sesión</h1>
         <label for="email">Correo</label><br>

@@ -1,13 +1,11 @@
-<main>
-    <?php
-    if (isset($error)) {
-        echo $error;
-    }
-    ?>
+<?php if (isset($error)) { ?>
+    <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+    <?php } ?>
 
-    <h1>Editar Producto</h1>
+<main>
 
     <form action="/admin/product/edit/<?php echo $product['id']; ?>" method="post" enctype="multipart/form-data">
+        <h1>Editar Producto</h1>
         <label for="category_id">Categoría:</label><br>
         <?php if (isset($errors['category_id'])) { ?>
         <span style="color: red;"><?php echo htmlspecialchars($errors['category_id']); ?></span><br>
@@ -51,11 +49,11 @@
         <?php } ?>
         <input type="text" name="product[offer]" value="<?php echo htmlspecialchars($product['oferta'] ?? ''); ?>">
 
-        <label for="date">Fecha:</label><br>
-        <?php if (isset($errors['date'])) { ?>
-        <span style="color: red;"><?php echo htmlspecialchars($errors['date']); ?></span><br>
-        <?php } ?>
-        <input type="date" name="product[date]" required value="<?php echo htmlspecialchars($product['fecha'] ?? ''); ?>">
+        <!-- <label for="date">Fecha:</label><br> -->
+        <!-- <?php if (isset($errors['date'])) { ?> -->
+        <!-- <span style="color: red;"><?php echo htmlspecialchars($errors['date']); ?></span><br> -->
+        <!-- <?php } ?> -->
+        <!-- <input type="date" name="product[date]" required value="<?php echo htmlspecialchars($product['fecha'] ?? ''); ?>"> -->
 
         <label for="image">Nueva imagen (opcional):</label><br>
         <?php if (isset($errors['image'])) { ?>

@@ -75,7 +75,7 @@ class ProductService
         $product->setDate($productData['date']);
         $product->setImage($productData['image']);
 
-        $errors = $product->validate();
+        $errors = $product->validate(true);
         if (! empty($errors)) {
             return ['success' => false, 'errors' => $errors];
         }

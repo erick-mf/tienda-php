@@ -1,13 +1,11 @@
-<main>
-    <?php
-    if (isset($error)) {
-        echo $error;
-    }
-    ?>
+<?php if (isset($error)) { ?>
+    <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+    <?php } ?>
 
-    <h1>Editar Categoria</h1>
+<main>
 
     <form action="/admin/category/edit/<?php echo $category['id']; ?>" method="post">
+        <h1>Editar Categoria</h1>
         <label for="name">Nuevo nombre:</label><br>
         <?php if (isset($errors['name'])) { ?>
         <span class="form-error"><?php echo htmlspecialchars($errors['name']); ?></span><br>

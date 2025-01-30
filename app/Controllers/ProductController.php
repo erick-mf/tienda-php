@@ -113,7 +113,7 @@ class ProductController
             'price' => $_POST['product']['price'] ?? $product['precio'],
             'stock' => $_POST['product']['stock'] ?? $product['stock'],
             'offer' => $_POST['product']['offer'] ?? $product['oferta'],
-            'date' => $_POST['product']['date'] ?? $product['fecha'],
+            'date' => $product['fecha'],
             'image' => $_POST['product']['image'] ?? $product['imagen'],
         ];
 

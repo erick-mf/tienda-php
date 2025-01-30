@@ -1,11 +1,11 @@
-<main>
-    <h1>Listado de Productos</h1>
-
-    <?php if (isset($msg)) { ?>
+<?php if (isset($msg)) { ?>
     <div class="error-message">
         <p><?php echo htmlspecialchars($msg); ?></p>
     </div>
     <?php } ?>
+
+<main>
+    <h1>Listado de Productos</h1>
 
     <?php if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') { ?>
     <a href="/admin/product/new" class="add-link">Agregar producto</a>
@@ -32,7 +32,7 @@
             <tr>
                 <td><?php echo htmlspecialchars($product['nombre']); ?></td>
                 <td><p><?php echo htmlspecialchars($product['descripcion']); ?></p></td>
-                <td><?php echo htmlspecialchars($product['precio']); ?></td>
+                <td>€ <?php echo number_format($product['precio'], 2); ?></td>
                 <td><?php echo htmlspecialchars($product['stock']); ?></td>
                 <td><?php echo htmlspecialchars($product['oferta']); ?></td>
                 <td>

@@ -13,6 +13,9 @@ CREATE TABLE IF NOT EXISTS usuarios (
     telefono varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
     rol varchar(20),
+    token varchar(255),
+    token_exp DATETIME,
+    confirmacion boolean,
     CONSTRAINT pk_usuarios PRIMARY KEY (id),
     CONSTRAINT uq_email UNIQUE (email)
 ) ENGINE = InnoDb DEFAULT CHARSET = utf8 COLLATE = utf8_bin;

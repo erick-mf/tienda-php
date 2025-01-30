@@ -1,11 +1,11 @@
-<main>
-    <h1>Listado de Categorías</h1>
-
-    <?php if (isset($msg)) { ?>
+<?php if (isset($msg)) { ?>
     <div class="error-message">
         <p>Error al eliminar la categoria</p>
     </div>
     <?php } ?>
+<main>
+    <h1>Listado de Categorías</h1>
+
 
     <a href="/admin/category/new" class="add-link">Agregar categoria</a>
     <table>

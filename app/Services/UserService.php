@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Lib\Email;
+use App\Lib\Security;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
@@ -21,6 +23,9 @@ class UserService
         if (! $user || ! password_verify($password, $user['password'])) {
             return ['success' => false, 'error' => 'Credenciales inválidas'];
         }
+        if ($user['confirmacion'] === 0) {
+            return ['success' => false, 'error' => 'La cuenta no ha sido confirmada todavia revisa tu correo'];
+        }
 
         return ['success' => true, 'user' => $user];
     }
@@ -36,6 +41,14 @@ class UserService
         $user->setPassword($userData['password']);
         $user->setRole($userData['role']);
 
+        $dataToken = [
+            'name' => $userData['name'],
+            'email' => $userData['email'],
+        ];
+        $tokenResult = Security::createToken($dataToken);
+        $user->setToken($tokenResult['token']);
+        $user->setToken_exp(date('Y-m-d H:i:s', $tokenResult['exp']));
+
         $errors = $user->validate();
         if (! empty($errors)) {
             return ['success' => false, 'errors' => $errors];
@@ -50,6 +63,9 @@ class UserService
         try {
             $savedUser = $this->userRepository->save($user);
             if ($savedUser) {
+                $sendEmail = new Email($user->email(), $user->name(), $user->token());
+                $sendEmail->sendConfirmation();
+
                 return ['success' => true, 'user' => $savedUser];
             } else {
                 throw new \Exception('No se pudo completar el registro del usuario');
@@ -57,5 +73,25 @@ class UserService
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
+    }
+
+    public function findEmail($email)
+    {
+        $user = $this->userRepository->findByEmail($email);
+        if (! $user) {
+            return ['success' => $user];
+        }
+
+        return ['success' => $user];
+    }
+
+    public function confirmation($email, $is_confirmed)
+    {
+        $user_confirmed = $this->userRepository->confirmation($email, $is_confirmed);
+        if (! $user_confirmed) {
+            return ['success' => $user_confirmed];
+        }
+
+        return ['success' => $user_confirmed];
     }
 }

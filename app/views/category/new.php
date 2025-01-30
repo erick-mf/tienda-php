@@ -1,10 +1,8 @@
-<main>
-    <?php
-    if (isset($error)) {
-        echo $error;
-    }
-    ?>
+<?php if (isset($error)) { ?>
+    <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+    <?php } ?>
 
+<main>
     <form action="/admin/category/new" method="post">
         <h1>Nueva Categoria</h1>
         <label for="name">Nombre:</label><br>

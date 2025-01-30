@@ -1,7 +1,6 @@
 <main>
-    <h1>Registro de Producto</h1>
-
     <form action="/admin/product/new" method="post" enctype="multipart/form-data">
+        <h1>Registro de Producto</h1>
         <label for="category_id">Categoría:</label><br>
         <?php if (isset($errors['category_id'])) { ?>
         <span class="form-error"><?= htmlspecialchars($errors['category_id']) ?></span><br>
@@ -30,7 +29,7 @@
         <label for="price">Precio:</label><br>
         <?php if (isset($errors['price'])) { ?>
         <span class="form-error"><?= htmlspecialchars($errors['price']) ?></span><br>
-        <?php } ?><
+        <?php } ?>
         <input type="number" name="product[price]" step="0.01" required value="<?= htmlspecialchars($_POST['product']['price'] ?? '') ?>">
 
         <label for="stock">Stock:</label><br>

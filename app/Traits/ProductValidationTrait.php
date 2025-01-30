@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait ProductValidationTrait
 {
-    public function validate(): array
+    public function validate($editProduct = false): array
     {
         $errors = [];
 
@@ -29,8 +29,8 @@ trait ProductValidationTrait
         // Validación de la descripción
         if (empty($this->description)) {
             $errors['description'] = 'La descripción es obligatoria.';
-        } elseif (strlen($this->description) > 500) {
-            $errors['description'] = 'La descripción no puede tener más de 500 caracteres.';
+        } elseif (strlen($this->description) > 100) {
+            $errors['description'] = 'La descripción no puede tener más de 100 caracteres.';
         } elseif (preg_match('/^[0-9]+$/', $this->description)) {
             $errors['description'] = 'La descripción no pueden ser solo números.';
         }
@@ -63,7 +63,7 @@ trait ProductValidationTrait
 
         if (empty($this->date)) {
             $errors['date'] = 'La fecha es obligatoria.';
-        } elseif ($this->date < $today) {
+        } elseif ($this->date < $today && $editProduct === false) {
             $errors['date'] = 'La fecha no puede ser anterior a la fecha actual.';
         }
 

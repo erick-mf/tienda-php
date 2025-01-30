@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Lib\Pages;
+use App\Lib\Security;
 use App\Services\UserService;
 use Exception;
 
@@ -90,5 +91,21 @@ class AuthController
         session_destroy();
         header('Location: /');
         exit;
+    }
+
+    public function confirmation($token)
+    {
+        $headers = getallheaders();
+        $userToken = Security::validateToken($token);
+        if (isset($userToken) && ! empty($userToken)) {
+            $email = $userToken->data->email;
+            $userConfirmed = $this->userService->findEmail($email);
+            if (! $userConfirmed) {
+                $this->page->render('auth/confirmation_error', []);
+            } else {
+                $this->userService->confirmation($email, true);
+                $this->page->render('auth/confirmation_success', []);
+            }
+        }
     }
 }
