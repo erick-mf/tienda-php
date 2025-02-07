@@ -72,9 +72,13 @@ class AuthController
             try {
                 $result = $this->userService->register($userData);
                 if ($result['success']) {
-
-                    header('Location: /login');
-                    exit;
+                    if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                        header('Location: /admin/users');
+                        exit;
+                    } else {
+                        header('Location: /login');
+                        exit;
+                    }
                 } else {
                     $this->page->render('auth/register', ['errors' => $result['errors']]);
                 }
