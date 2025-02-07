@@ -85,6 +85,25 @@ class UserService
         return ['success' => $user];
     }
 
+    public function edit($id, $userData)
+    {
+        $user = new User;
+        $user->setName($userData['name']);
+        $user->setSurnames($userData['surnames']);
+        $user->setAddress($userData['address']);
+        $user->setEmail($userData['email']);
+        $user->setPhone($userData['phone']);
+        $user->setRole($userData['role']);
+
+        $errors = $user->validate(true);
+        if (! empty($errors)) {
+            return ['success' => false, 'errors' => $errors];
+        }
+        $result = $this->userRepository->edit($user);
+
+        return ['success' => $result];
+    }
+
     public function confirmation($email, $is_confirmed)
     {
         $user_confirmed = $this->userRepository->confirmation($email, $is_confirmed);

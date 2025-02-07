@@ -79,22 +79,21 @@ class CategoryRepository
 
     public function delete(int $id): bool
     {
-        // $id = 1;
-        $sql = 'DELETE FROM categorias WHERE id = :id';
+        $sqlAux = 'SELECT COUNT(*) FROM productos WHERE categoria_id = :id';
+        $stmtAux = $this->db->prepare($sqlAux);
+        $stmtAux->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmtAux->execute();
 
-        try {
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
-            $stmt->execute();
-
-            if ($stmt->rowCount() > 0) {
-                return true;
-            }
-
+        if ($stmtAux->fetchColumn() > 0) {
             return false;
-        } catch (\PDOException $e) {
-            throw new \PDOException('Error al eliminar la categoría: '.$e->getMessage());
         }
+
+        $sql = 'DELETE FROM categorias WHERE id = :id';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->rowCount() > 0;
     }
 
     public function edit(Category $category): bool

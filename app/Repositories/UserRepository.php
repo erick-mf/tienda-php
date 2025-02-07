@@ -30,6 +30,21 @@ class UserRepository
         return $user;
     }
 
+    public function findUserById($id)
+    {
+        $stmt = $this->db->prepare('SELECT * FROM usuarios WHERE id = :id');
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (! $user) {
+            return null;
+        }
+
+        return $user;
+    }
+
     public function save(User $user): ?User
     {
         $sql = 'INSERT INTO usuarios (nombre, apellidos, direccion, email, telefono, password, rol, token, token_exp, confirmacion)
@@ -57,6 +72,66 @@ class UserRepository
         } catch (\PDOException $e) {
             throw new \Exception('Error al guardar el usuario: '.$e->getMessage());
         }
+    }
+
+    public function getUsers()
+    {
+        $stmt = $this->db->prepare('SELECT * FROM usuarios');
+        $stmt->execute();
+
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if (! $users) {
+            return false;
+        }
+
+        return $users;
+    }
+
+    public function deleteUser($id)
+    {
+        // $id = 1000;
+        $sql = 'DELETE FROM usuarios WHERE id = :id';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        $count = $stmt->rowCount();
+        if ($count === 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function edit(User $user)
+    {
+        $sql = 'UPDATE usuarios SET
+        nombre = :name,
+        apellidos = :surnames,
+        direccion = :address,
+        email = :email,
+        telefono = :phone,
+        rol = :role,
+        confirmacion = :confirmation
+        WHERE id = :id';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':id', $user->id_user());
+        $stmt->bindValue(':name', $user->name());
+        $stmt->bindValue(':surnames', $user->surnames());
+        $stmt->bindValue(':address', $user->address());
+        $stmt->bindValue(':email', $user->email());
+        $stmt->bindValue(':phone', $user->phone());
+        $stmt->bindValue(':role', $user->role());
+        $stmt->bindValue(':confirmation', $user->is_confirmed(), PDO::PARAM_BOOL);
+
+        if (! $stmt->execute()) {
+            return false;
+        }
+
+        return true;
+
     }
 
     public function confirmation($email, $is_confirmed)

@@ -41,9 +41,23 @@
             <?php } ?>
             <input type="password"  name="user[password]" required>
 
+            <?php if (isset($_SESSION['user_role'])) { ?>
+            <?php if ($_SESSION['user_role'] === 'admin') { ?>
+            <label for="rol">Rol:</label>
+            <select name="user[rol]">
+                <option value="client">Cliente</option>
+                <option value="admin">Administrador</option>
+            </select><br>
+
+            <input type="submit" value="Registrar">
+            <button type="button" onclick="location.href='/admin/users'">Cancelar</button>
+            <?php } ?>
+            <?php } else { ?>
+            <br>
             <input type="submit" value="Registrar">
             <button type="button" onclick="location.href='/'">Cancelar</button>
             <p>¿Ya tienes una cuenta? <a href="login">Inicia sesión aquí</a>.</p>
+            <?php } ?>
         </form>
 
     </main>

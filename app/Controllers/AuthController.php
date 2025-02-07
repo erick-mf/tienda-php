@@ -95,7 +95,7 @@ class AuthController
 
     public function confirmation($token)
     {
-        $headers = getallheaders();
+        // $token = Security::getToken();
         $userToken = Security::validateToken($token);
         if (isset($userToken) && ! empty($userToken)) {
             $email = $userToken->data->email;

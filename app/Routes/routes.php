@@ -2,6 +2,7 @@
 
 namespace App\Routes;
 
+use App\Controllers\AdminController;
 use App\Controllers\AuthController;
 use App\Controllers\CartController;
 use App\Controllers\CategoryController;
@@ -20,23 +21,27 @@ Router::get('register', [AuthController::class, 'register']);
 Router::post('register', [AuthController::class, 'register']);
 Router::get('confirmation/:param', [AuthController::class, 'confirmation']);
 Router::get('logout', [AuthController::class, 'logout']);
+Router::get('/'.ADMIN_URL.'/users', [AdminController::class, 'getUsers']);
+Router::get('/'.ADMIN_URL.'/user/edit/:param', [AdminController::class, 'showEditUser']);
+Router::post('/'.ADMIN_URL.'/user/edit/:param', [AdminController::class, 'updateUser']);
+Router::post('/'.ADMIN_URL.'/user/delete/:param', [AdminController::class, 'deleteUser']);
 // Categorias
-Router::get(ADMIN_URL.'/category', [CategoryController::class, 'show']);
-Router::get(ADMIN_URL.'/category/new', [CategoryController::class, 'new']);
-Router::post(ADMIN_URL.'/category/new', [CategoryController::class, 'new']);
-Router::post(ADMIN_URL.'/category/delete/:id', [CategoryController::class, 'delete']);
-Router::get(ADMIN_URL.'/category/edit/:id', [CategoryController::class, 'showEditCategory']);
-Router::post(ADMIN_URL.'/category/edit/:id', [CategoryController::class, 'updateCategory']);
+Router::get('/'.ADMIN_URL.'/category', [CategoryController::class, 'show']);
+Router::get('/'.ADMIN_URL.'/category/new', [CategoryController::class, 'new']);
+Router::post('/'.ADMIN_URL.'/category/new', [CategoryController::class, 'new']);
+Router::post('/'.ADMIN_URL.'/category/delete/:param', [CategoryController::class, 'delete']);
+Router::get('/'.ADMIN_URL.'/category/edit/:param', [CategoryController::class, 'showEditCategory']);
+Router::post('/'.ADMIN_URL.'/category/edit/:param', [CategoryController::class, 'updateCategory']);
 // Productos
 Router::get('products', [ProductController::class, 'getProducts']);
-Router::get(ADMIN_URL.'/product/new', [ProductController::class, 'new']);
-Router::post(ADMIN_URL.'/product/new', [ProductController::class, 'new']);
-Router::post(ADMIN_URL.'/product/delete/:id', [ProductController::class, 'delete']);
-Router::get(ADMIN_URL.'/product/edit/:id', [ProductController::class, 'showEditProduct']);
-Router::post(ADMIN_URL.'/product/edit/:id', [ProductController::class, 'updateProduct']);
+Router::get('/'.ADMIN_URL.'/product/new', [ProductController::class, 'new']);
+Router::post('/'.ADMIN_URL.'/product/new', [ProductController::class, 'new']);
+Router::post('/'.ADMIN_URL.'/product/delete/:param', [ProductController::class, 'delete']);
+Router::get('/'.ADMIN_URL.'/product/edit/:param', [ProductController::class, 'showEditProduct']);
+Router::post('/'.ADMIN_URL.'/product/edit/:param', [ProductController::class, 'updateProduct']);
 // Carrito
 Router::get('cart', [CartController::class, 'getCart']);
 Router::post('/cart/add', [CartController::class, 'addProducts']);
 Router::get('/cart/delete', [CartController::class, 'deleteProducts']);
-Router::post('/cart/delete/:id', [CartController::class, 'deleteProductId']);
-Router::post('/cart/update/:id', [CartController::class, 'updateProductId']);
+Router::post('/cart/delete/:param', [CartController::class, 'deleteProductId']);
+Router::post('/cart/update/:param', [CartController::class, 'updateProductId']);

@@ -45,9 +45,17 @@ class CategoryService
         return $this->categoryRepository->show();
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
-        return $this->categoryRepository->delete($id);
+        $result = $this->categoryRepository->delete($id);
+        if (! $result) {
+            $_SESSION['message'] = 'No se puede eliminar la categoría porque tiene productos asociados.';
+
+            return false;
+        }
+        $_SESSION['message'] = 'Categoría eliminada exitosamente';
+
+        return true;
     }
 
     public function findCategoryId(int $id)

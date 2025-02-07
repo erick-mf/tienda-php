@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait UserValidationTrait
 {
-    public function validate(): array
+    public function validate($edit = false): array
     {
         $errors = [];
 
@@ -50,10 +50,12 @@ trait UserValidationTrait
         }
 
         // Validación de la contraseña
-        if (empty($this->password)) {
-            $errors['password'] = 'La contraseña es obligatoria.';
-        } elseif (strlen($this->password) < 8) {
-            $errors['password'] = 'La contraseña debe tener al menos 8 caracteres.';
+        if (! $edit) {
+            if (empty($this->password)) {
+                $errors['password'] = 'La contraseña es obligatoria.';
+            } elseif (strlen($this->password) < 8) {
+                $errors['password'] = 'La contraseña debe tener al menos 8 caracteres.';
+            }
         }
 
         return $errors;

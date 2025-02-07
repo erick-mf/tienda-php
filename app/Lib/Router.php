@@ -37,57 +37,40 @@ class Router
     {
         $pages = new Pages;
         $method = $_SERVER['REQUEST_METHOD'];
-        // Obtener la URI sin el prefijo del proyecto
-        $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-        $action = trim($uri, '/');
+        $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 
-        $param = null;
-        // solo funciona para nùmeros
-        // if (preg_match('/[0-9]+$/', $action, $match)) {
-        //     $param = $match[0];
-        //     $action = preg_replace('/'.$match[0].'$/', ':id', $action);
-        // }
-        if (preg_match('/\/([^\/]+)$/', $action, $match)) {
-            $param = $match[1];
-            $action = preg_replace('/\/[^\/]+$/', '/:param', $action);
-        }
+        foreach (self::$routes[$method] as $route => $controller) {
+            $pattern = preg_replace('/:\w+/', '([^/]+)', trim($route, '/')); // Convierte :param en una expresión regular
+            if (preg_match("#^$pattern$#", $uri, $matches)) {
+                array_shift($matches); // Elimina el primer match (URL completa)
 
-        // Verificar middlewares
-        foreach (self::$middlewares as $prefix => $middleware) {
-            if (strpos($action, $prefix) === 0) {
-                if (! $middleware::isValid()) {
-                    http_response_code(403);
+                // Verificar middleware
+                foreach (self::$middlewares as $prefix => $middleware) {
+                    if (strpos($route, $prefix) === 0 && ! $middleware::isValid()) {
+                        http_response_code(403);
 
-                    return $pages->render('errors/error403', []);
+                        return $pages->render('errors/error403', []);
+                    }
                 }
-                break;
-            }
-        }
 
-        // Verificar si la ruta existe
-        if (isset(self::$routes[$method][$action])) {
-            $routeAction = self::$routes[$method][$action];
+                // Ejecutar controlador
+                if (is_array($controller)) {
+                    $controllerName = $controller[0];
+                    $methodName = $controller[1];
 
-            if (is_array($routeAction)) {
-                $controllerName = $routeAction[0];
-                $methodName = $routeAction[1];
+                    if (class_exists($controllerName) && method_exists($controllerName, $methodName)) {
+                        $controllerInstance = new $controllerName;
 
-                if (class_exists($controllerName) && method_exists($controllerName, $methodName)) {
-                    $controller = new $controllerName;
-
-                    return $controller->$methodName($param);
+                        return call_user_func_array([$controllerInstance, $methodName], $matches);
+                    }
                 } else {
-                    http_response_code(500);
-
-                    return $pages->render('errors/error500', []);
+                    return call_user_func_array($controller, $matches);
                 }
-            } else {
-                return $routeAction($param);
             }
-        } else {
-            http_response_code(404);
-
-            return $pages->render('errors/error404', []);
         }
+
+        http_response_code(404);
+
+        return $pages->render('errors/error404', []);
     }
 }

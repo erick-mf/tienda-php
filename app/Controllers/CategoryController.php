@@ -43,22 +43,18 @@ class CategoryController
     public function show()
     {
         $results = $this->categoryService->show();
-        $msg = $_SESSION['message'] ?? null;
-        unset($_SESSION['message']);
 
         if (empty($results)) {
             $this->page->render('category/show', []);
         } else {
-            $this->page->render('category/show', ['results' => $results, 'msg' => $msg]);
+            $this->page->render('category/show', ['results' => $results]);
         }
     }
 
     public function delete($idStrg)
     {
         $id = (int) $idStrg;
-        if (! $this->categoryService->delete($id)) {
-            $_SESSION['message'] = 'Error al eliminar la categoría';
-        }
+        $result = $this->categoryService->delete($id);
         header('Location: /admin/category');
         exit;
     }
@@ -71,7 +67,7 @@ class CategoryController
             header('Location: /admin/category');
             exit;
         }
-        $this->page->render('category/edit', ['result' => $category]);
+        $this->page->render('category/edit', ['category' => $category]);
     }
 
     public function updateCategory($id)
