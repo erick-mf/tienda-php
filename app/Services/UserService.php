@@ -110,6 +110,20 @@ class UserService
         if (! $user_confirmed) {
             return ['success' => $user_confirmed];
         }
+        $user = $this->userRepository->findByEmail($email);
+        if(!$user){
+            return ["success"=>false];
+        }
+        $dataToken = [
+            "name"=>$user["nombre"],
+            "email"=>$user["email"]
+        ];
+        $newToken =  Security::createTokenWhithoutExpiration($dataToken);
+    $updateToken = $this->userRepository->updateToken($email, $newToken, null);
+
+ if (!$updateToken) {
+        return ['success' => false];
+    }
 
         return ['success' => $user_confirmed];
     }

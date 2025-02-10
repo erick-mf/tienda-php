@@ -110,7 +110,6 @@ class UserRepository
         nombre = :name,
         apellidos = :surnames,
         direccion = :address,
-        email = :email,
         telefono = :phone,
         rol = :role,
         confirmacion = :confirmation
@@ -121,7 +120,6 @@ class UserRepository
         $stmt->bindValue(':name', $user->name());
         $stmt->bindValue(':surnames', $user->surnames());
         $stmt->bindValue(':address', $user->address());
-        $stmt->bindValue(':email', $user->email());
         $stmt->bindValue(':phone', $user->phone());
         $stmt->bindValue(':role', $user->role());
         $stmt->bindValue(':confirmation', $user->is_confirmed(), PDO::PARAM_BOOL);
@@ -139,6 +137,18 @@ class UserRepository
         $stmt = $this->db->prepare('UPDATE usuarios SET confirmacion = :is_confirmed WHERE email = :email');
         $stmt->bindValue(':is_confirmed', $is_confirmed, PDO::PARAM_BOOL);
         $stmt->bindValue(':email', $email, PDO::PARAM_STR);
+
+        return $stmt->execute();
+    }
+
+    public function updateToken($email, $token, $expiration)
+    {
+        $sql = 'UPDATE usuarios SET token = :token, token_exp = :expiration WHERE email = :email';
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':token', $token);
+        $stmt->bindValue(':expiration', $expiration);
+        $stmt->bindValue(':email', $email);
 
         return $stmt->execute();
     }

@@ -1,5 +1,8 @@
-<?php if (isset($error)) { ?>
-    <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class="error-message">
+        <p><?php echo htmlspecialchars($_SESSION['message']); ?></p>
+    </div>
+    <?php unset($_SESSION['message']); ?>
     <?php } ?>
 
     <main>
@@ -23,11 +26,11 @@
             <?php } ?>
             <input type="text"  name="user[address]" value="<?php echo htmlspecialchars($user['direccion'] ?? ''); ?>">
 
-            <label for="email">Correo Electrónico:</label><br>
-            <?php if (isset($errors['email'])) { ?>
-            <span class="form-error"><?php echo htmlspecialchars($errors['email']); ?></span><br>
-            <?php } ?>
-            <input type="email"  name="user[email]" required value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>">
+            <!-- <label for="email">Correo Electrónico:</label><br> -->
+            <!-- <?php if (isset($errors['email'])) { ?> -->
+            <!-- <span class="form-error"><?php echo htmlspecialchars($errors['email']); ?></span><br> -->
+            <!-- <?php } ?> -->
+            <!-- <input type="email"  name="user[email]" required value="<?php echo htmlspecialchars($user['email'] ?? ''); ?>"> -->
 
             <label for="phone">Teléfono:</label><br>
             <?php if (isset($errors['phone'])) { ?>

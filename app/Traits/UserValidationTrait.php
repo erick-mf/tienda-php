@@ -37,20 +37,20 @@ trait UserValidationTrait
             $errors['address'] = 'La dirección no puede contener solo números.';
         }
 
-        // Validación del email
-        if (empty($this->email)) {
-            $errors['email'] = 'El correo electrónico es obligatorio.';
-        } elseif (! filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'El correo electrónico no es válido.';
-        }
-
         // Validación del teléfono (opcional en el formulario)
         if (! empty($this->phone) && ! preg_match('/^[0-9]{9}$/', $this->phone)) {
             $errors['phone'] = 'El teléfono debe tener 9 dígitos numéricos.';
         }
 
-        // Validación de la contraseña
         if (! $edit) {
+            // Validación del email
+            if (empty($this->email)) {
+                $errors['email'] = 'El correo electrónico es obligatorio.';
+            } elseif (! filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+                $errors['email'] = 'El correo electrónico no es válido.';
+            }
+
+            // Validación de la contraseña
             if (empty($this->password)) {
                 $errors['password'] = 'La contraseña es obligatoria.';
             } elseif (strlen($this->password) < 8) {

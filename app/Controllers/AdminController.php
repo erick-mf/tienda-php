@@ -38,32 +38,44 @@ class AdminController
 
     public function showEditUser($id)
     {
-        $user = $this->adminService->findUserById((int) $id);
-        if (! $user['success']) {
+        if (empty($id) || ! is_numeric($id)) {
             header('Location: /admin/users');
             exit;
         }
-        $this->page->render('admin/editUser', ['user' => $user['success']]);
+
+        $userResult = $this->adminService->findUserById((int) $id);
+        if (! $userResult['success'] || empty($userResult['success'])) {
+            header('Location: /admin/users');
+            exit;
+        }
+        $user = $userResult['success'];
+        $this->page->render('admin/editUser', ['user' => $user]);
     }
 
     public function updateUser($id)
     {
-        $user = $this->adminService->findUserById($id);
+        if (empty($id) || ! is_numeric($id)) {
+            header('Location: /admin/users');
+            exit;
+        }
+        $userResult = $this->adminService->findUserById((int) $id);
+
+        if (! $userResult['success'] || empty($userResult['success'])) {
+            header('Location: /admin/users');
+            exit;
+        }
+
+        $user = $userResult['success'];
         $updateUser = [
-            'id' => $id ?? $user['id'],
+            'id' => $id,
             'name' => $_POST['user']['name'] ?? $user['nombre'],
             'surnames' => $_POST['user']['surnames'] ?? $user['apellidos'],
             'address' => $_POST['user']['address'] ?? $user['direccion'],
-            'email' => $_POST['user']['email'] ?? $user['email'],
             'phone' => $_POST['user']['phone'] ?? $user['telefono'],
             'role' => $_POST['user']['role'] ?? $user['rol'],
             'confirmation' => false,
         ];
-        if (empty($updateUser)) {
-            $this->page->render('admin/editUser', ['user' => ['id' => $id]]);
 
-            return;
-        }
         $result = $this->adminService->editUser($updateUser);
         if (! $result['success']) {
             $this->page->render('admin/editUser', ['errors' => $result['success'], 'user' => $user]);

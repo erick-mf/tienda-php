@@ -38,7 +38,6 @@ class AuthController
                 $result = $this->userService->login($email, $password);
 
                 if ($result['success']) {
-                    $_SESSION['user_id'] = $result['user']['id'];
                     $_SESSION['user_name'] = $result['user']['nombre'];
                     $_SESSION['user_role'] = $result['user']['rol'];
 

@@ -77,7 +77,19 @@ CREATE TABLE IF NOT EXISTS lineas_pedidos (
 ) ENGINE = InnoDb DEFAULT CHARSET = utf8 COLLATE = utf8_bin;
 
 INSERT INTO tienda.usuarios
-(id, nombre, apellidos, direccion, email, telefono, password, rol)
+(
+    id,
+    nombre,
+    apellidos,
+    direccion,
+    email,
+    telefono,
+    password,
+    rol,
+    token,
+    token_exp,
+    confirmacion
+)
 VALUES (
     1,
     'juan',
@@ -86,5 +98,122 @@ VALUES (
     'admin@example.com',
     '998877665',
     '$2y$10$mxDUACCMlV2tnhaWXwX9ZOD1/yWNanGVSrOcY2acDX3O/3OE7f9hy',
-    'admin'
+    'admin',
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MzkxNzczNjQsImRhdGEiOnsibmFtZSI6Imp1YW4iLCJlbWFpbCI6ImFkbWluQGV4YW1wbGUuY29tIn19.IfmWrOI5Y1_KHXk5BY_6LsfC-kse9IP0LoMDtlUmRfM',
+    NULL,
+    '1'
+);
+
+-- Inserts para categorías
+INSERT INTO categorias (nombre) VALUES ('Camisas');
+INSERT INTO categorias (nombre) VALUES ('Zapatos');
+
+-- Inserts para productos (camisas)
+INSERT INTO productos (
+    categoria_id, nombre, descripcion, precio, stock, oferta, fecha, imagen
+) VALUES
+(
+    1,
+    'Camisa Clásica',
+    'Camisa de algodón de manga larga',
+    29.99,
+    100,
+    'NO',
+    '2025-02-10',
+    'camisa1.jpeg'
+),
+(
+    1,
+    'Camisa Casual',
+    'Camisa de manga corta',
+    24.99,
+    80,
+    'NO',
+    '2025-02-10',
+    'camisa2.jpeg'
+),
+(
+    1,
+    'Camisa Elegante',
+    'Camisa de vestir con cuello italiano',
+    39.99,
+    50,
+    'SI',
+    '2025-02-10',
+    'camisa3.jpeg'
+),
+(
+    1,
+    'Camisa Casual',
+    'Camisa transpirable para actividades diarias',
+    34.99,
+    75,
+    'NO',
+    '2025-02-10',
+    'camisa4.jpeg'
+),
+(
+    1,
+    'Camisa Clàsica',
+    'Camisa con diseño moderno y colorido',
+    27.99,
+    60,
+    'NO',
+    '2025-02-10',
+    'camisa5.jpeg'
+);
+
+-- Inserts para productos (zapatos)
+INSERT INTO productos (
+    categoria_id, nombre, descripcion, precio, stock, oferta, fecha, imagen
+) VALUES
+(
+    2,
+    'Zapatos Invierno',
+    'Zapatos de cuero para uso diario',
+    79.99,
+    40,
+    'NO',
+    '2025-02-10',
+    'zapato1.jpeg'
+),
+(
+    2,
+    'Zapatos',
+    'Zapatos para uso formal',
+    59.99,
+    100,
+    'SI',
+    '2025-02-10',
+    'zapato2.jpeg'
+),
+(
+    2,
+    'Zapatillas',
+    'Zapatillas para uso diaria',
+    49.99,
+    60,
+    'NO',
+    '2025-02-10',
+    'zapato3.jpeg'
+),
+(
+    2,
+    'Zapatos Cafés',
+    'Zapatos de uso clásico',
+    89.99,
+    30,
+    'NO',
+    '2025-02-10',
+    'zapato4.jpeg'
+),
+(
+    2,
+    'Zapato de Tacón',
+    'Zapato para uso formal',
+    29.99,
+    80,
+    'SI',
+    '2025-02-10',
+    'zapato5.jpeg'
 );

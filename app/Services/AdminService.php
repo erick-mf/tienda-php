@@ -47,7 +47,6 @@ class AdminService
         $user->setName($userData['name']);
         $user->setSurnames($userData['surnames']);
         $user->setAddress($userData['address']);
-        $user->setEmail($userData['email']);
         $user->setPhone($userData['phone']);
         $user->setRole($userData['role']);
         $user->setIs_confirmed(false);
@@ -57,6 +56,11 @@ class AdminService
             return ['success' => false, 'errors' => $errors];
         }
         $result = $this->userRepository->edit($user);
+        if (! $result) {
+            $_SESSION['message'] = 'Error al editar al usuario';
+
+            return ['success' => false];
+        }
 
         return ['success' => $user];
     }

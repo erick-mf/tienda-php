@@ -8,10 +8,6 @@ use Firebase\JWT\Key;
 
 class Security
 {
-    final public static function encryptPassw(string $passw) {}
-
-    final public static function validatePassw(string $passw, string $passHash) {}
-
     final public static function secretKey()
     {
         return $_ENV['SECRET_KEY'];
@@ -30,6 +26,17 @@ class Security
         return ['token' => JWT::encode($token, self::secretKey(), 'HS256'),
             'exp' => $exp,
         ];
+    }
+
+    final public static function createTokenWhithoutExpiration($data)
+    {
+        $time = strtotime('now');
+        $token = [
+            'iat' => $time,
+            'data' => $data,
+        ];
+
+        return JWT::encode($token, self::secretKey(), 'HS256');
     }
 
     final public static function getToken()
