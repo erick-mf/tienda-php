@@ -1,6 +1,14 @@
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class='<?php echo $_SESSION['message']['type']; ?>'>
+        <p><?php echo htmlspecialchars($_SESSION['message']['text']); ?></p>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+    <?php } ?>
+
 <main>
     <?php if (! empty($_SESSION['order'])) { ?>
-    <h2>Tu Carrito</h2>
+    <h2>Tu Carrito</h2><br>
+    <a class="button-cart" href="/cart/delete">Eliminar carrito</a><br>
     <div class="cart-table-container">
         <table class="cart-table">
             <thead>
@@ -24,13 +32,15 @@
                         <img src="<?php echo IMG_URL.htmlspecialchars($item['imagen']); ?>"
                             alt="<?php echo htmlspecialchars($item['nombre']); ?>"
                             class="cart-item-image">
+                        <?php echo htmlspecialchars($item['nombre']); ?>
                     </td>
                     <td>€<?php echo number_format($item['precio'], 2); ?></td>
-                    <td class="quantity-column">
+                    <td>
                         <form action="/cart/update" method="POST" class="update-quantity-form">
                             <input type="hidden" name="product_id" value="<?php echo $productId; ?>">
-                            <input type="number" name="quantity" value="<?php echo $item['cantidad']; ?>" min="1" max="<?php echo $item['stock']; ?>">
-                            <button type="submit" class="update-button">Actualizar</button>
+                            <span class="quantity-display"><?php echo $item['cantidad']; ?></span>
+                            <button type="submit" name="quantity" value="decrease" class="quantity-button">-</button>
+                            <button type="submit" name="quantity" value="increase" class="quantity-button">+</button>
                         </form>
                     </td>
                     <td>€<?php echo number_format($subtotal, 2); ?></td>
@@ -54,7 +64,6 @@
         <a href="/" class="button-cart">Seguir comprando</a>
         <a href="/checkout" class="button-cart">Proceder al pago</a>
     </div>
-
     <?php } else { ?>
     <div class="empty-content-message">
         <p>Tu carrito está vacío.</p>

@@ -41,9 +41,7 @@ CREATE TABLE IF NOT EXISTS productos (
     fecha date NOT NULL,
     imagen varchar(255),
     CONSTRAINT pk_categorias PRIMARY KEY (id),
-    CONSTRAINT fk_producto_categoria FOREIGN KEY (
-        categoria_id
-    ) REFERENCES categorias (id)
+    CONSTRAINT fk_producto_categoria FOREIGN KEY (categoria_id) REFERENCES categorias (id)
 ) ENGINE = InnoDb DEFAULT CHARSET = utf8 COLLATE = utf8_bin;
 
 DROP TABLE IF EXISTS pedidos;
@@ -54,7 +52,7 @@ CREATE TABLE IF NOT EXISTS pedidos (
     localidad varchar(100) NOT NULL,
     direccion varchar(255) NOT NULL,
     coste float(200, 2) NOT NULL,
-    estado varchar(20) NOT NULL,
+    estado ENUM("en progreso","confirmado","entregado") NOT NULL,
     fecha date,
     hora time,
     CONSTRAINT pk_pedidos PRIMARY KEY (id),

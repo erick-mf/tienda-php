@@ -115,4 +115,18 @@ class Product
     {
         $this->image = $image;
     }
+
+    public function fromArray($data)
+    {
+        if (! empty($data)) {
+            foreach ($data as $name => $value) {
+                $method = 'set'.ucfirst($name);
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+            }
+        }
+
+        return $this;
+    }
 }

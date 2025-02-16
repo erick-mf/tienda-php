@@ -19,5 +19,6 @@
         <input type="submit" value="Iniciar sesión">
         <button type="button" onclick="location.href='/'">Cancelar</button>
         <p>¿No tienes una cuenta? <a href="/register">Regístrate aquí</a>.</p>
+        <p>¿No recuerdas la contraseña? <a href="/reset-pass">Cambiar contraseña</a>.</p>
     </form>
 </main>
