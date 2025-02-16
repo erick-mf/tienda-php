@@ -7,6 +7,11 @@ use App\Lib\Security;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
+/**
+ * Clase UserService
+ *
+ * Esta clase proporciona servicios relacionados con la gestión de usuarios.
+ */
 class UserService
 {
     private UserRepository $userRepository;
@@ -16,6 +21,13 @@ class UserService
         $this->userRepository = new UserRepository;
     }
 
+    /**
+     * Realiza el proceso de login de un usuario.
+     *
+     * @param  string  $email  El email del usuario.
+     * @param  string  $password  La contraseña del usuario.
+     * @return array Un array con las claves 'success' y 'user' o 'error'.
+     */
     public function login(string $email, string $password): array
     {
         $user = $this->userRepository->findByEmail($email);
@@ -30,6 +42,12 @@ class UserService
         return ['success' => true, 'user' => $user];
     }
 
+    /**
+     * Registra un nuevo usuario.
+     *
+     * @param  array  $userData  Los datos del nuevo usuario.
+     * @return array Un array con las claves 'success', 'errors' (si los hay) y 'user' (si se registró con éxito).
+     */
     public function register(array $userData): array
     {
         $user = new User;
@@ -75,6 +93,12 @@ class UserService
         }
     }
 
+    /**
+     * Busca un usuario por su email.
+     *
+     * @param  string  $email  El email del usuario a buscar.
+     * @return array Un array con la clave 'success' conteniendo el resultado de la búsqueda.
+     */
     public function findEmail($email)
     {
         $user = $this->userRepository->findByEmail($email);
@@ -85,6 +109,13 @@ class UserService
         return ['success' => $user];
     }
 
+    /**
+     * Edita la información de un usuario existente.
+     *
+     * @param  mixed  $id  El ID del usuario a editar.
+     * @param  array  $userData  Los datos actualizados del usuario.
+     * @return array Un array con la clave 'success' indicando si la edición fue exitosa y 'errors' si hubo errores.
+     */
     public function edit($id, $userData)
     {
         $user = new User;
@@ -104,6 +135,13 @@ class UserService
         return ['success' => $result];
     }
 
+    /**
+     * Confirma la cuenta de un usuario.
+     *
+     * @param  string  $email  El email del usuario a confirmar.
+     * @param  bool  $is_confirmed  El estado de confirmación.
+     * @return array Un array con la clave 'success' indicando si la confirmación fue exitosa.
+     */
     public function confirmation($email, $is_confirmed)
     {
         $user_confirmed = $this->userRepository->confirmation($email, $is_confirmed);
@@ -111,20 +149,33 @@ class UserService
             return ['success' => $user_confirmed];
         }
         $user = $this->userRepository->findByEmail($email);
-        if(!$user){
-            return ["success"=>false];
+        if (! $user) {
+            return ['success' => false];
         }
         $dataToken = [
-            "name"=>$user["nombre"],
-            "email"=>$user["email"]
+            'name' => $user['nombre'],
+            'email' => $user['email'],
         ];
-        $newToken =  Security::createTokenWhithoutExpiration($dataToken);
-    $updateToken = $this->userRepository->updateToken($email, $newToken, null);
+        $newToken = Security::createTokenWhithoutExpiration($dataToken);
+        $updateToken = $this->userRepository->updateToken($email, $newToken, null);
 
- if (!$updateToken) {
-        return ['success' => false];
-    }
+        if (! $updateToken) {
+            return ['success' => false];
+        }
 
         return ['success' => $user_confirmed];
+    }
+
+    /**
+     * Busca un usuario por su ID.
+     *
+     * @param  mixed  $id  El ID del usuario a buscar.
+     * @return array Un array con la clave 'success' conteniendo el resultado de la búsqueda.
+     */
+    public function findUserById($id)
+    {
+        $result = $this->userRepository->findUserById($id);
+
+        return ['success' => $result];
     }
 }

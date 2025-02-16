@@ -7,18 +7,31 @@ use App\Lib\Security;
 use App\Services\UserService;
 use Exception;
 
+/**
+ * Clase AuthController
+ *
+ * Esta clase maneja las operaciones de autenticación y registro de usuarios.
+ */
 class AuthController
 {
     private UserService $userService;
+
+    private OrderController $orderController;
 
     private Pages $page;
 
     public function __construct()
     {
         $this->userService = new UserService;
+        $this->orderController = new OrderController;
         $this->page = new Pages;
     }
 
+    /**
+     * Maneja el proceso de inicio de sesión.
+     *
+     * Procesa las solicitudes POST de inicio de sesión y renderiza el formulario de login.
+     */
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -38,8 +51,11 @@ class AuthController
                 $result = $this->userService->login($email, $password);
 
                 if ($result['success']) {
+                    $_SESSION['user_id'] = $result['user']['id'];
                     $_SESSION['user_name'] = $result['user']['nombre'];
                     $_SESSION['user_role'] = $result['user']['rol'];
+                    $_SESSION['user_address'] = $result['user']['direccion'];
+                    $this->orderController->getOrderTemp($result['user']['id']);
 
                     header('Location: /');
                     exit;
@@ -54,6 +70,11 @@ class AuthController
         }
     }
 
+    /**
+     * Maneja el proceso de registro de usuarios.
+     *
+     * Procesa las solicitudes POST de registro y renderiza el formulario de registro.
+     */
     public function register(): void
     {
 
@@ -89,13 +110,26 @@ class AuthController
         }
     }
 
+    /**
+     * Maneja el proceso de cierre de sesión.
+     *
+     * Guarda el pedido temporal, destruye la sesión y redirige al usuario.
+     */
     public function logout(): void
     {
+        if (isset($_SESSION['user_id']) && ! empty($_SESSION['user_id'])) {
+            $this->orderController->saveOrderTemp((int) $_SESSION['user_id']);
+        }
         session_destroy();
         header('Location: /');
         exit;
     }
 
+    /**
+     * Maneja el proceso de confirmación de cuenta.
+     *
+     * @param  string  $token  El token de confirmación.
+     */
     public function confirmation($token)
     {
         // $token = Security::getToken();
@@ -110,5 +144,10 @@ class AuthController
                 $this->page->render('auth/confirmation_success', []);
             }
         }
+    }
+
+    public function resetPass()
+    {
+        $this->page->render('auth/reset_pass');
     }
 }

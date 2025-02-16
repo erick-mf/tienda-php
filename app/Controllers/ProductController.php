@@ -7,6 +7,11 @@ use App\Services\CategoryService;
 use App\Services\ProductService;
 use DateTime;
 
+/**
+ * Clase ProductController
+ *
+ * Esta clase maneja las operaciones relacionadas con los productos.
+ */
 class ProductController
 {
     private ProductService $productService;
@@ -22,6 +27,11 @@ class ProductController
         $this->page = new Pages;
     }
 
+    /**
+     * Crea un nuevo producto.
+     *
+     * Maneja las solicitudes POST para crear un nuevo producto y renderiza el formulario.
+     */
     public function new(): void
     {
         $categories = $this->categoryService->show();
@@ -68,6 +78,9 @@ class ProductController
         }
     }
 
+    /**
+     * Obtiene y muestra todos los productos.
+     */
     public function getProducts()
     {
         $products = $this->productService->getProducts();
@@ -79,6 +92,11 @@ class ProductController
         }
     }
 
+    /**
+     * Elimina un producto.
+     *
+     * @param  string  $idStrg  El ID del producto a eliminar.
+     */
     public function delete($idStrg)
     {
         $id = (int) $idStrg;
@@ -88,6 +106,11 @@ class ProductController
         }
     }
 
+    /**
+     * Muestra el formulario de edición de un producto.
+     *
+     * @param  mixed  $id  El ID del producto a editar.
+     */
     public function showEditProduct($id)
     {
         $product = $this->productService->findProductId((int) $id);
@@ -100,6 +123,11 @@ class ProductController
         $this->page->render('product/edit', ['product' => $product, 'categories' => $categories]);
     }
 
+    /**
+     * Actualiza la información de un producto.
+     *
+     * @param  mixed  $id  El ID del producto a actualizar.
+     */
     public function updateProduct($id)
     {
         $product = $this->productService->findProductId((int) $id);

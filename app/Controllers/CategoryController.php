@@ -5,6 +5,11 @@ namespace App\Controllers;
 use App\Lib\Pages;
 use App\Services\CategoryService;
 
+/**
+ * Clase CategoryController
+ *
+ * Esta clase maneja las operaciones relacionadas con las categorías.
+ */
 class CategoryController
 {
     private CategoryService $categoryService;
@@ -17,6 +22,11 @@ class CategoryController
         $this->page = new Pages;
     }
 
+    /**
+     * Crea una nueva categoría.
+     *
+     * Maneja las solicitudes POST para crear una nueva categoría y renderiza el formulario.
+     */
     public function new(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -40,6 +50,11 @@ class CategoryController
         }
     }
 
+    /**
+     * Muestra todas las categorías.
+     *
+     * Obtiene y muestra la lista de todas las categorías.
+     */
     public function show()
     {
         $results = $this->categoryService->show();
@@ -51,6 +66,11 @@ class CategoryController
         }
     }
 
+    /**
+     * Elimina una categoría.
+     *
+     * @param  string  $idStrg  El ID de la categoría a eliminar.
+     */
     public function delete($idStrg)
     {
         $id = (int) $idStrg;
@@ -59,6 +79,11 @@ class CategoryController
         exit;
     }
 
+    /**
+     * Muestra el formulario de edición de una categoría.
+     *
+     * @param  mixed  $id  El ID de la categoría a editar.
+     */
     public function showEditCategory($id)
     {
         $category = $this->categoryService->findCategoryId((int) $id);
@@ -70,6 +95,11 @@ class CategoryController
         $this->page->render('category/edit', ['category' => $category]);
     }
 
+    /**
+     * Actualiza la información de una categoría.
+     *
+     * @param  mixed  $id  El ID de la categoría a actualizar.
+     */
     public function updateCategory($id)
     {
         $category = $this->categoryService->findCategoryId((int) $id);

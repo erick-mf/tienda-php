@@ -5,6 +5,11 @@ namespace App\Controllers;
 use App\Lib\Pages;
 use App\Services\AdminService;
 
+/**
+ * Clase AdminController
+ *
+ * Esta clase maneja las operaciones de administración relacionadas con los usuarios.
+ */
 class AdminController
 {
     private AdminService $adminService;
@@ -17,6 +22,11 @@ class AdminController
         $this->page = new Pages;
     }
 
+    /**
+     * Obtiene y muestra todos los usuarios.
+     *
+     * Maneja solicitudes GET para obtener y mostrar la lista de usuarios.
+     */
     public function getUsers()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -29,6 +39,11 @@ class AdminController
         }
     }
 
+    /**
+     * Elimina un usuario.
+     *
+     * @param  string  $idStrg  El ID del usuario a eliminar.
+     */
     public function deleteUser($idStrg)
     {
         $result = $this->adminService->deleteUser((int) $idStrg);
@@ -36,6 +51,11 @@ class AdminController
         exit;
     }
 
+    /**
+     * Muestra el formulario de edición de un usuario.
+     *
+     * @param  mixed  $id  El ID del usuario a editar.
+     */
     public function showEditUser($id)
     {
         if (empty($id) || ! is_numeric($id)) {
@@ -52,6 +72,11 @@ class AdminController
         $this->page->render('admin/editUser', ['user' => $user]);
     }
 
+    /**
+     * Actualiza la información de un usuario.
+     *
+     * @param  mixed  $id  El ID del usuario a actualizar.
+     */
     public function updateUser($id)
     {
         if (empty($id) || ! is_numeric($id)) {

@@ -5,6 +5,11 @@ namespace App\Services;
 use App\Models\User;
 use App\Repositories\UserRepository;
 
+/**
+ * Clase AdminService
+ *
+ * Esta clase proporciona servicios relacionados con la administración de usuarios.
+ */
 class AdminService
 {
     private UserRepository $userRepository;
@@ -14,6 +19,12 @@ class AdminService
         $this->userRepository = new UserRepository;
     }
 
+    /**
+     * Busca un usuario por su ID.
+     *
+     * @param  mixed  $id  El ID del usuario a buscar.
+     * @return array Un array con la clave 'success' conteniendo el resultado de la búsqueda.
+     */
     public function findUserById($id)
     {
         $result = $this->userRepository->findUserById($id);
@@ -21,6 +32,11 @@ class AdminService
         return ['success' => $result];
     }
 
+    /**
+     * Obtiene todos los usuarios.
+     *
+     * @return array Un array con la clave 'success' conteniendo el resultado de la obtención de usuarios.
+     */
     public function getUsers()
     {
         $result = $this->userRepository->getUsers();
@@ -28,6 +44,12 @@ class AdminService
         return ['success' => $result];
     }
 
+    /**
+     * Elimina un usuario por su ID.
+     *
+     * @param  mixed  $id  El ID del usuario a eliminar.
+     * @return bool True si el usuario fue eliminado con éxito, false en caso contrario.
+     */
     public function deleteUser($id)
     {
         $result = $this->userRepository->deleteUser($id);
@@ -40,6 +62,12 @@ class AdminService
         return true;
     }
 
+    /**
+     * Edita la información de un usuario.
+     *
+     * @param  array  $userData  Los datos actualizados del usuario.
+     * @return array Un array con las claves 'success' y posiblemente 'errors'.
+     */
     public function editUser($userData)
     {
         $user = new User;

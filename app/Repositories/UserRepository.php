@@ -6,6 +6,10 @@ use App\Lib\DataBase;
 use App\Models\User;
 use PDO;
 
+/**
+ * Clase UserRepository
+ * Esta clase maneja las operaciones de base de datos relacionadas con los usuarios.
+ */
 class UserRepository
 {
     private DataBase $db;
@@ -15,6 +19,12 @@ class UserRepository
         $this->db = new DataBase;
     }
 
+    /**
+     * Busca un usuario por su email.
+     *
+     * @param  string  $email  La dirección de email a buscar.
+     * @return array|null Los datos del usuario como un array asociativo, o null si no se encuentra.
+     */
     public function findByEmail(string $email): ?array
     {
         $stmt = $this->db->prepare('SELECT * FROM usuarios WHERE email = :email');
@@ -30,6 +40,12 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * Busca un usuario por su ID.
+     *
+     * @param  mixed  $id  El ID del usuario a buscar.
+     * @return array|null Los datos del usuario como un array asociativo, o null si no se encuentra.
+     */
     public function findUserById($id)
     {
         $stmt = $this->db->prepare('SELECT * FROM usuarios WHERE id = :id');
@@ -45,6 +61,12 @@ class UserRepository
         return $user;
     }
 
+    /**
+     * Guarda un nuevo usuario en la base de datos.
+     *
+     * @param  User  $user  El objeto User a guardar.
+     * @return User|null El objeto User guardado, o una Excepción si la operación falló.
+     */
     public function save(User $user): ?User
     {
         $sql = 'INSERT INTO usuarios (nombre, apellidos, direccion, email, telefono, password, rol, token, token_exp, confirmacion)
@@ -74,6 +96,11 @@ class UserRepository
         }
     }
 
+    /**
+     * Obtiene todos los usuarios de la base de datos.
+     *
+     * @return array|false Un array de todos los usuarios, o false si no se encuentran usuarios.
+     */
     public function getUsers()
     {
         $stmt = $this->db->prepare('SELECT * FROM usuarios');
@@ -87,6 +114,12 @@ class UserRepository
         return $users;
     }
 
+    /**
+     * Elimina un usuario de la base de datos.
+     *
+     * @param  mixed  $id  El ID del usuario a eliminar.
+     * @return bool True si el usuario fue eliminado, false en caso contrario.
+     */
     public function deleteUser($id)
     {
         // $id = 1000;
@@ -104,6 +137,12 @@ class UserRepository
         return true;
     }
 
+    /**
+     * Edita la información de un usuario existente.
+     *
+     * @param  User  $user  El objeto User con la información actualizada.
+     * @return bool True si la actualización fue exitosa, false en caso contrario.
+     */
     public function edit(User $user)
     {
         $sql = 'UPDATE usuarios SET
@@ -132,6 +171,13 @@ class UserRepository
 
     }
 
+    /**
+     * Actualiza el estado de confirmación de un usuario.
+     *
+     * @param  string  $email  El email del usuario a actualizar.
+     * @param  bool  $is_confirmed  El nuevo estado de confirmación.
+     * @return bool True si la actualización fue exitosa, false en caso contrario.
+     */
     public function confirmation($email, $is_confirmed)
     {
         $stmt = $this->db->prepare('UPDATE usuarios SET confirmacion = :is_confirmed WHERE email = :email');
@@ -141,6 +187,14 @@ class UserRepository
         return $stmt->execute();
     }
 
+    /**
+     * Actualiza el token y su fecha de expiración para un usuario.
+     *
+     * @param  string  $email  El correo electrónico del usuario a actualizar.
+     * @param  string  $token  El nuevo token.
+     * @param  string  $expiration  La fecha/hora de expiración del token.
+     * @return bool True si la actualización fue exitosa, false en caso contrario.
+     */
     public function updateToken($email, $token, $expiration)
     {
         $sql = 'UPDATE usuarios SET token = :token, token_exp = :expiration WHERE email = :email';
@@ -151,5 +205,27 @@ class UserRepository
         $stmt->bindValue(':email', $email);
 
         return $stmt->execute();
+    }
+
+    /**
+     * Obtiene el token de un usuario.
+     *
+     * @param  string  $token  El token a buscar.
+     * @return array|null Los datos del token como un array asociativo, o null si no se encuentra.
+     */
+    public function getToken($token)
+    {
+        $sql = 'SELECT token, rol FROM usuarios WHERE token = :token';
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':token', $token);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (! $result) {
+            return null;
+        }
+
+        return $result;
+
     }
 }
