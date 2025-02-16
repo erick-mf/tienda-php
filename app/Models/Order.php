@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Traits\OrderValidationTrait;
+
 class Order
 {
+    use OrderValidationTrait;
+
     private $id;
 
     private $user_id;
@@ -16,7 +20,7 @@ class Order
 
     private $cost;
 
-    private $status;
+    private $status = 'en progreso';
 
     private $date;
 
@@ -110,5 +114,19 @@ class Order
     public function setTime($time): void
     {
         $this->time = $time;
+    }
+
+    public function fromArray(array $orderData): self
+    {
+        if (! empty($orderData)) {
+            foreach ($orderData as $name => $value) {
+                $method = 'set'.ucfirst($name);
+                if (method_exists($this, $method)) {
+                    $this->$method($value);
+                }
+            }
+        }
+
+        return $this;
     }
 }

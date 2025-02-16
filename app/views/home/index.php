@@ -1,6 +1,12 @@
+<?php if (isset($_SESSION['message'])) { ?>
+    <div class='<?php echo $_SESSION['message']['type']; ?>'>
+        <p><?php echo htmlspecialchars($_SESSION['message']['text']); ?></p>
+    </div>
+    <?php unset($_SESSION['message']); ?>
+    <?php } ?>
+
 <main>
      <?php if (! empty($products) && is_array($products)) { ?>
-    <a href="/cart/delete">Eliminar carrito</a>
     <div class="product-grid">
         <?php foreach ($products as $product) { ?>
         <div class="product-card">
@@ -16,7 +22,7 @@
                     <input type="hidden" name="product_id" value="<?php echo $product['id'] ?>">
                     <input type="hidden" name="product_name" value="<?php echo htmlspecialchars($product['nombre']) ?>">
                     <input type="hidden" name="product_price" value="<?php echo $product['precio'] ?>">
-                    <input type="hidden" name="product_stock" value="<?php echo $product['precio'] ?>">
+                    <input type="hidden" name="product_stock" value="<?php echo $product['stock'] ?>">
                     <input type="hidden" name="product_image" value="<?php echo htmlspecialchars($product['imagen']) ?>">
                     <button type="submit" class="add-to-cart">Agregar al carrito</button>
                 </form>
