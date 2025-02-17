@@ -117,7 +117,7 @@ class AuthController
      */
     public function logout(): void
     {
-        if (isset($_SESSION['user_id']) && ! empty($_SESSION['user_id'])) {
+        if (isset($_SESSION['user_id']) && ! empty($_SESSION['user_id']) && $_SESSION['user_role'] === 'client') {
             $this->orderController->saveOrderTemp((int) $_SESSION['user_id']);
         }
         session_destroy();

@@ -13,6 +13,13 @@ class PayPalController
 {
     private string $baseUrl = 'https://api-m.sandbox.paypal.com';
 
+    private function getHost()
+    {
+        $host = $_ENV['HOST_URL'];
+
+        return $host;
+    }
+
     /**
      * Obtiene el token de acceso para la API de PayPal.
      *
@@ -35,6 +42,7 @@ class PayPalController
     {
         try {
             $accessToken = $this->getAccessToken();
+            $host = $this->getHost();
 
             $total = 0;
             foreach ($_SESSION['order'] as $item) {
@@ -50,8 +58,8 @@ class PayPalController
                     ],
                 ]],
                 'application_context' => [
-                    'return_url' => 'http://localhost/paypal/capture-order',
-                    'cancel_url' => 'http://localhost/cart',
+                    'return_url' => "$host/paypal/capture-order",
+                    'cancel_url' => "$host/cart",
                 ],
             ]);
 

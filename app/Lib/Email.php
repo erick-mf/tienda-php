@@ -12,6 +12,8 @@ class Email
 
     public $token;
 
+    public $host;
+
     public function __construct($email, $name, $token)
     {
         $this->email = $email;
@@ -39,10 +41,11 @@ class Email
 
     public function sendConfirmation()
     {
+        $this->host = $_ENV['HOST_URL'];
 
         $content = '<html>';
         $content .= '<p>Hola<strong> '.ucfirst($this->name).'</strong><br>Has creado tú cuenta en Fake.com. Solo debes confirmarla presionando en el siguiente enlace</p>';
-        $content .= "<a href='http://localhost/confirmation/{$this->token}'>Confirmar tú cuenta aquí</a><br>";
+        $content .= "<a href='{$this->host}/confirmation/{$this->token}'>Confirmar tú cuenta aquí</a><br>";
         $content .= '<p>Sí tu no has realizado ningun proceso con nuestro sitio web puedes ignorar este mensaje</p>';
         $content .= '</html>';
 
