@@ -51,7 +51,7 @@ class APIproductController
 
         $created = 0;
         $errors = [];
-        $sourceImageDir = '/mnt/erick/code/php/public/assets/img/';
+        $sourceImageDir = $_ENV['SOURCE_IMG_DIR'];
 
         foreach ($data as $index => $value) {
             $productErrors = [];
@@ -64,14 +64,13 @@ class APIproductController
                 if (! file_exists($sourceImagePath)) {
                     $productErrors['image'] = 'No se encontró la imagen para el producto.';
                 } else {
-                    $extension = pathinfo($sourceImagePath, PATHINFO_EXTENSION);
-                    $fileName = uniqid().'.'.$extension;
+                    $fileName = $value['image'];
                     $destinationPath = $_SERVER['DOCUMENT_ROOT'].IMG_URL.$fileName;
 
                     if (! copy($sourceImagePath, $destinationPath)) {
                         $productErrors['image'] = 'Error al copiar la imagen para el producto.';
                     } else {
-                        $value['image'] = $fileName; // Solo guardamos el nombre del archivo
+                        $value['image'] = $fileName;
                     }
                 }
             }
