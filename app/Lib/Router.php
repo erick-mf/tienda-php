@@ -47,7 +47,7 @@ class Router
                 // Verificar middleware
                 foreach (self::$middlewares as $prefix => $middleware) {
                     if (strpos($route, $prefix) === 0 && ! $middleware::isValid()) {
-                        http_response_code(403);
+                        ResponseHttp::statusMessages(403, 'Acceso denegado');
 
                         return $pages->render('errors/error403', []);
                     }
@@ -69,7 +69,7 @@ class Router
             }
         }
 
-        http_response_code(404);
+        ResnponseHttp::statusMessages(404, 'Ruta no encontrada');
 
         return $pages->render('errors/error404', []);
     }

@@ -60,7 +60,7 @@ Router::get('/paypal/capture-order', [PayPalController::class, 'captureOrder']);
 Router::get('/'.ADMIN_URL.'/orders', [OrderController::class, 'getOrders']);
 Router::post('/'.ADMIN_URL.'/order/confirmation/:param', [OrderController::class, 'updateStatus']);
 
-// ////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 // API
 Router::get('/api/v1/products/all', [APIproductController::class, 'getAll']);
 Router::get('/api/v1/products/:param', [APIproductController::class, 'getProductById']);

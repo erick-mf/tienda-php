@@ -107,7 +107,6 @@ class APIproductController
     public function getAll()
     {
         ResponseHttp::setHeaders();
-        ResponseHttp::authAPI();
         if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
             ResponseHttp::statusMessages(405, 'Método no permitido');
 
