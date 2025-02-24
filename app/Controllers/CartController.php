@@ -21,12 +21,15 @@ class CartController
 
     private PayPalController $paypalController;
 
+    private OrderController $orderController;
+
     public function __construct()
     {
         $this->page = new Pages;
         $this->userService = new UserService;
         $this->OrderService = new OrderService;
         $this->paypalController = new PayPalController;
+        $this->orderController = new OrderController;
     }
 
     /**
@@ -70,6 +73,9 @@ class CartController
                     'imagen' => $_POST['product_image'],
                 ];
                 $_SESSION['message'] = ['text' => 'Producto agregado al carrito', 'type' => 'success-message'];
+            }
+            if (isset($_SESSION['user_id'])) {
+                $this->orderController->saveOrderTemp($_SESSION['user_id']);
             }
 
             header('Location: /');

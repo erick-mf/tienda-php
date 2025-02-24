@@ -42,15 +42,37 @@ class OrderController
     {
         $items = $this->orderSerice->getOrderTemp($user_id);
 
-        $_SESSION['order'] = [];
-        foreach ($items as $item) {
-            $_SESSION['order'][$item['producto_id']] = [
-                'cantidad' => $item['unidades'],
-                'nombre' => $item['nombre'],
-                'precio' => $item['precio'],
-                'stock' => $item['stock'],
-                'imagen' => $item['imagen'],
-            ];
+        if (! isset($_SESSION['order'])) {
+            $_SESSION['order'] = [];
+        }
+
+        $cart = $_SESSION['order'];
+
+        if ($items) {
+            foreach ($items as $item) {
+                $productId = $item['producto_id'];
+
+                if (isset($cart[$productId])) {
+                    // Si el producto existe en ambos, sumar cantidades sin exceder el stock
+                    $newQuantity = $cart[$productId]['cantidad'] + $item['unidades'];
+                    $maxStock = $cart[$productId]['stock'];
+                    $cart[$productId]['cantidad'] = min($newQuantity, $maxStock);
+                } else {
+                    // Si el producto solo está en el carrito guardado, añadirlo a la sesión
+                    $cart[$productId] = [
+                        'cantidad' => $item['unidades'],
+                        'nombre' => $item['nombre'],
+                        'precio' => $item['precio'],
+                        'stock' => $item['stock'],
+                        'imagen' => $item['imagen'],
+                    ];
+                }
+            }
+
+            $_SESSION['order'] = $cart;
+            $this->orderSerice->saveOrderTemp($user_id);
+
+            return $cart;
         }
     }
 

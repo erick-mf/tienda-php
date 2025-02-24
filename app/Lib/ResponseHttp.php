@@ -87,9 +87,13 @@ class ResponseHttp
             exit;
         }
 
-        $authorizationArr = explode(' ', $headers['Authorization']);
-        $token = $authorizationArr[1];
-        // Verificar el token en la base de datos
+        $token = self::extractToken($headers['Authorization']);
+
+        if ($token === null) {
+            self::statusMessages(401, 'Formato de token inválido');
+            exit;
+        }
+
         $userRepository = new UserRepository;
         $user = $userRepository->getToken($token);
 
@@ -102,5 +106,20 @@ class ResponseHttp
             self::statusMessages(403, 'No tienes permisos de administrador para esta acción');
             exit;
         }
+    }
+
+    private static function extractToken($authHeader)
+    {
+        if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+            return $matches[1];
+        }
+
+        // Si no encuentra el formato Bearer, intenta extraer el token directamente
+        $parts = explode(' ', $authHeader, 2);
+        if (count($parts) == 2) {
+            return $parts[1];
+        }
+
+        return null;
     }
 }
