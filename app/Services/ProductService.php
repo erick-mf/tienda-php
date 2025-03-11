@@ -65,8 +65,10 @@ class ProductService
      */
     public function getProducts(): ?array
     {
-        return $this->productRepository->getProducts();
+        $products = $this->productRepository->getProducts();
 
+
+    return $products;
     }
 
     /**
@@ -77,7 +79,9 @@ class ProductService
      */
     public function findProductId(int $id)
     {
-        return $this->productRepository->findProductID($id);
+        $product = $this->productRepository->findProductID($id);
+
+        return $product;
     }
 
     /**

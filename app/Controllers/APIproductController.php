@@ -120,6 +120,11 @@ class APIproductController
             return;
         } else {
             $products = $result;
+
+            foreach ($products as &$product) {
+                $product['imagen'] = IMG_URL_API . $product['imagen'];
+            }
+
             ResponseHttp::statusMessages(200, 'Productos encontrados', $products);
 
             return;
@@ -148,6 +153,8 @@ class APIproductController
             return;
         } else {
             $product = $result;
+            $product['imagen']= IMG_URL_API . $product['imagen'];
+
             ResponseHttp::statusMessages(200, 'Producto encontrado', $product);
 
             return;

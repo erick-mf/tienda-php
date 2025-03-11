@@ -3,6 +3,10 @@ RewriteEngine On
 Options -Indexes
 ServerSignature Off
 
+
+# para redireccionar /media/productos/ a /assets/img/
+RewriteRule ^media/productos/(.*)$ assets/img/$1 [L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
