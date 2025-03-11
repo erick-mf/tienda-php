@@ -82,6 +82,8 @@ class ResponseHttp
     public static function authAPI()
     {
         $headers = apache_request_headers();
+        ucfirst($headers['authorization']);
+
         if (! isset($headers['Authorization']) || empty($headers['Authorization'])) {
             self::statusMessages(403, 'No tienes permisos para esta acción');
             exit;
